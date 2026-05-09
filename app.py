@@ -23,7 +23,7 @@ def halaman_uji(judul, get_model_func, key_prefix):
     run_key = f"run_test_{key_prefix}"
     hash_key = f"last_hash_{key_prefix}"
 
-    # ===== INIT STATE =====
+    # INIT STATE
     if image_key not in st.session_state:
         st.session_state[image_key] = None
     if run_key not in st.session_state:
@@ -31,7 +31,7 @@ def halaman_uji(judul, get_model_func, key_prefix):
     if hash_key not in st.session_state:
         st.session_state[hash_key] = None
 
-    # ===== TITLE =====
+    # TITLE
     st.markdown(f'<div class="test-title">Halaman Pengujian {judul}</div>', unsafe_allow_html=True)
     st.markdown('<div class="test-subtitle">Upload atau ambil foto daun tomat untuk menguji klasifikasi penyakit.</div>', unsafe_allow_html=True)
 
@@ -48,10 +48,10 @@ def halaman_uji(judul, get_model_func, key_prefix):
     </div>
     """, unsafe_allow_html=True)
 
-    # ===== LAYOUT =====
+    # LAYOUT
     col1, col2, col3 = st.columns([3,1,3])
 
-    # ===== INPUT =====
+    # INPUT
     with col1:
         with st.container():
             st.markdown('<div class="card-input">', unsafe_allow_html=True)
@@ -173,7 +173,7 @@ def halaman_uji(judul, get_model_func, key_prefix):
                 st.session_state[run_key] = True
                 st.rerun()
 
-    # ===== HASIL =====
+    # HASIL
     with col3:
         st.markdown('<div class="card-input">', unsafe_allow_html=True)
 
@@ -241,7 +241,7 @@ def format_label(label):
 
     return mapping.get(label.title(), label.title())
 
-# ================= CONFIG =================
+# CONFIG
 st.set_page_config(
     page_title="Menu Sidebar",
     page_icon="🏠",
@@ -515,13 +515,12 @@ div[data-testid="stVerticalBlock"] {
 }
             
 .scroll-box {
-    max-height: 220px;   /* kira-kira muat 5-6 item */
+    max-height: 220px;   
     overflow-y: auto;
     margin-top: 8px;
     padding-right: 6px;
 }
 
-/* optional: custom scrollbar biar cakep */
 .scroll-box::-webkit-scrollbar {
     width: 6px;
 }
@@ -551,7 +550,6 @@ div[data-testid="stVerticalBlock"] {
     margin-bottom: 10px;
 }
 
-/* STREAMLIT IMAGE */
 [data-testid="stImage"] img {
     width: 150px !important;
     height: 150px !important;
@@ -588,12 +586,11 @@ div[data-testid="stVerticalBlock"] {
 </style>
 """, unsafe_allow_html=True)
 
-# ================= SIDEBAR =================
+# SIDEBAR
 with st.sidebar:
     st.markdown('<div class="menu-title">Menu</div>', unsafe_allow_html=True)
     st.markdown('<div class="sidebar-divider"></div>', unsafe_allow_html=True)
 
-    # WRAP RADIO DALAM CONTAINER
     with st.container():
         menu = st.radio("", [
             "🏠 Halaman Utama",
@@ -602,7 +599,7 @@ with st.sidebar:
             "ℹ️ Informasi Tentang Pembuat"
         ], index=0)
 
-# ================= HALAMAN =================
+# HALAMAN UTAMA
 if menu == "🏠 Halaman Utama":
     st.markdown("""
     <div class="main-title">
