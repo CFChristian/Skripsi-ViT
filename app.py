@@ -78,7 +78,7 @@ def halaman_uji(judul, get_model_func, key_prefix):
                     label_visibility="collapsed"
                 )
 
-            MAX_SIZE = 1 * 1024 * 1024
+            MAX_SIZE = 8 * 1024 * 1024
 
             if uploaded_file is not None:
                 if uploaded_file.size > MAX_SIZE:
