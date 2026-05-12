@@ -452,25 +452,43 @@ div[data-testid="stVerticalBlock"] {
     margin-bottom: 10px;
 }
 
+/* ===== BOX UPLOAD ===== */
+[data-testid="stFileUploader"] section {
+    background-color: #f1f1f1 !important;
+    padding: 10px !important;
+    border-radius: 12px !important;
+
+    min-height: auto !important;
+    height: auto !important;
+}
+
+/* ===== HILANGKAN AREA DRAG BESAR ===== */
+[data-testid="stFileUploaderDropzone"] {
+    padding: 0 !important;
+    min-height: auto !important;
+}
+
+/* ===== TOMBOL ===== */
 [data-testid="stFileUploader"] button {
     background-color: #1a73e8 !important;
     color: white !important;
     font-size: 0.85rem !important;
-    border-radius: 10px;
-    border: none;
-}
-            
-[data-testid="stFileUploader"] section {
-    background-color: #f1f1f1 !important;
+    border-radius: 10px !important;
+    border: none !important;
+
+    padding: 10px 18px !important;
+    height: auto !important;
 }
 
+/* ===== TEXT ===== */
 [data-testid="stFileUploader"] label,
 [data-testid="stFileUploader"] p,
-[data-testid="stFileUploader"] span {
-    font-size: 0.57rem !important;
+[data-testid="stFileUploader"] span,
+[data-testid="stFileUploader"] small {
+    font-size: 0.65rem !important;
     color: black !important;
 }
-            
+
 .scroll-box {
     max-height: 220px;   
     overflow-y: auto;
