@@ -61,24 +61,15 @@ def halaman_uji(judul, get_model_func, key_prefix):
             preview = st.empty()
             st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 
-            colUpload, colCamera = st.columns(2)
+            uploaded_file = st.file_uploader(
+                "📂 Upload gambar",
+                key=f"upload_{key_prefix}",
+                label_visibility="collapsed",
+                type=["jpg", "jpeg", "png"]
+            )
 
-            with colUpload:
-                uploaded_file = st.file_uploader(
-                    "📂 Upload gambar",
-                    key=f"upload_{key_prefix}",
-                    label_visibility="collapsed",
-                    type=["jpg", "jpeg", "png"]
-                )
 
-            with colCamera:
-                camera_file = st.camera_input(
-                    "📷 Ambil foto",
-                    key=f"camera_{key_prefix}",
-                    label_visibility="collapsed"
-                )
-
-            MAX_SIZE = 8 * 1024 * 1024
+            MAX_SIZE = 1 * 1024 * 1024
 
             if uploaded_file is not None:
                 if uploaded_file.size > MAX_SIZE:
@@ -91,14 +82,6 @@ def halaman_uji(judul, get_model_func, key_prefix):
                         st.session_state[image_key] = Image.open(uploaded_file)
                         st.session_state[run_key] = False
                         st.session_state[hash_key] = new_hash
-
-            elif camera_file is not None:
-                new_hash = file_hash(camera_file)
-
-                if new_hash != st.session_state[hash_key]:
-                    st.session_state[image_key] = Image.open(camera_file)
-                    st.session_state[run_key] = False
-                    st.session_state[hash_key] = new_hash
 
             if st.session_state[image_key] is None:
                 preview.markdown("""
@@ -466,33 +449,6 @@ div[data-testid="stVerticalBlock"] {
     text-align: center;
     font-size: 30px;
     margin-bottom: 10px;
-}
-            
-[data-testid="stCameraInput"] {
-    height: auto !important;
-    overflow: visible !important;
-}
-            
-[data-testid="stCameraInput"] video {
-    height: 250px !important;
-    object-fit: cover;
-}
-            
-[data-testid="stCameraInput"] label {
-    color: #374151 !important;
-    font-size: 0.85rem !important;
-}
-
-[data-testid="stCameraInput"] p {
-    display: none !important;
-}
-
-[data-testid="stCameraInput"] button {
-    width: 100% !important;
-    background-color: #3b82f6 !important;
-    color: white !important;
-    font-size: 0.85rem !important;
-    margin-top: auto !important;
 }
 
 [data-testid="stFileUploader"] button {
