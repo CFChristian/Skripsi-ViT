@@ -73,17 +73,62 @@ def halaman_uji(judul, get_model_func, key_prefix):
             MAX_SIZE = 1 * 1024 * 1024
 
             if uploaded_file is not None:
-                if uploaded_file.size > MAX_SIZE:
-                    st.error("Ukuran gambar maksimal 1 MB!")
-                    st.session_state[image_key] = None
-                else:
-                    new_hash = file_hash(uploaded_file)
+
+                try:
+
+                    # buka image
+                    img = Image.open(uploaded_file)
+
+                    # convert biar aman untuk JPEG
+                    if img.mode in ("RGBA", "P"):
+                        img = img.convert("RGB")
+
+                    # resize maksimal
+                    max_size = (1280, 1280)
+                    img.thumbnail(max_size)
+
+                    quality = 85
+
+                    while True:
+
+                        buffer = BytesIO()
+
+                        img.save(
+                            buffer,
+                            format="JPEG",
+                            quality=quality,
+                            optimize=True
+                        )
+
+                        size = buffer.tell()
+
+                        if size <= MAX_SIZE or quality <= 20:
+                            break
+
+                        quality -= 5
+
+                    buffer.seek(0)
+
+                    new_hash = file_hash(buffer)
+
+                    buffer.seek(0)
 
                     if new_hash != st.session_state[hash_key]:
-                        st.session_state[image_key] = Image.open(uploaded_file)
+
+                        st.session_state[image_key] = Image.open(buffer)
+
                         st.session_state[run_key] = False
+
                         st.session_state[hash_key] = new_hash
 
+                        st.success(
+                            f"Gambar berhasil dikompres ({size / 1024:.0f} KB)"
+                        )
+
+                except Exception as e:
+
+                    st.error(f"Gagal memproses gambar: {e}")
+                    
             if st.session_state[image_key] is None:
                 preview.markdown("""
                 <div style="
@@ -452,7 +497,6 @@ div[data-testid="stVerticalBlock"] {
     margin-bottom: 10px;
 }
 
-/* ===== BOX UPLOAD ===== */
 [data-testid="stFileUploader"] section {
     background-color: #f1f1f1 !important;
     padding: 10px !important;
@@ -462,13 +506,11 @@ div[data-testid="stVerticalBlock"] {
     height: auto !important;
 }
 
-/* ===== HILANGKAN AREA DRAG BESAR ===== */
 [data-testid="stFileUploaderDropzone"] {
     padding: 0 !important;
     min-height: auto !important;
 }
 
-/* ===== TOMBOL ===== */
 [data-testid="stFileUploader"] button {
     background-color: #1a73e8 !important;
     color: white !important;
@@ -480,7 +522,6 @@ div[data-testid="stVerticalBlock"] {
     height: auto !important;
 }
 
-/* ===== TEXT ===== */
 [data-testid="stFileUploader"] label,
 [data-testid="stFileUploader"] p,
 [data-testid="stFileUploader"] span,
