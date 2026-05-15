@@ -70,7 +70,14 @@ def halaman_uji(judul, get_model_func, key_prefix):
             )
 
 
-            MAX_SIZE = 1 * 1024 * 1024
+            MAX_SIZE = 10 * 1024 * 1024
+
+            # kalau user remove file
+            if uploaded_file is None:
+
+                st.session_state[image_key] = None
+                st.session_state[run_key] = False
+                st.session_state[hash_key] = None
 
             if uploaded_file is not None:
 
@@ -128,7 +135,7 @@ def halaman_uji(judul, get_model_func, key_prefix):
                 except Exception as e:
 
                     st.error(f"Gagal memproses gambar: {e}")
-                    
+
             if st.session_state[image_key] is None:
                 preview.markdown("""
                 <div style="
