@@ -42,9 +42,9 @@ def halaman_uji(judul, get_model_func, key_prefix):
         </div>
         <ol style="font-size:0.7rem;">
             <li>Pilih <b>Browse Files</b> atau <b>Take Photo</b></li>
-            <li>Masukkan gambar daun tomat atau foto gambar daun tomat dengan maksimal limit 1MB</li>
+            <li>Masukkan gambar daun tomat atau foto gambar daun tomat dengan maksimal limit 10MB</li>
             <li>Tekan tombol <b>Uji</b> untuk melihat klasifikasi penyakit daun tomat yang di inginkan</li>
-            <li>Agar hasil lebih akurat, usahakan foto daun tomat dengan background abu - abu</li>
+            <li>Agar hasil lebih akurat, usahakan foto daun tomat dengan latar belakang abu - abu</li>
         </ol>
     </div>
     """, unsafe_allow_html=True)
