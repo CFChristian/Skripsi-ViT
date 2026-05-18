@@ -72,7 +72,6 @@ def halaman_uji(judul, get_model_func, key_prefix):
 
             MAX_SIZE = 10 * 1024 * 1024
 
-            # kalau user remove file
             if uploaded_file is None:
 
                 st.session_state[image_key] = None
@@ -80,60 +79,41 @@ def halaman_uji(judul, get_model_func, key_prefix):
                 st.session_state[hash_key] = None
 
             if uploaded_file is not None:
-
                 try:
-
-                    # buka image
                     img = Image.open(uploaded_file)
 
-                    # convert biar aman untuk JPEG
                     if img.mode in ("RGBA", "P"):
                         img = img.convert("RGB")
-
-                    # resize maksimal
                     max_size = (1280, 1280)
                     img.thumbnail(max_size)
 
                     quality = 85
 
                     while True:
-
                         buffer = BytesIO()
-
                         img.save(
                             buffer,
                             format="JPEG",
                             quality=quality,
                             optimize=True
                         )
-
                         size = buffer.tell()
-
                         if size <= MAX_SIZE or quality <= 20:
                             break
-
                         quality -= 5
-
                     buffer.seek(0)
-
                     new_hash = file_hash(buffer)
-
                     buffer.seek(0)
 
                     if new_hash != st.session_state[hash_key]:
-
                         st.session_state[image_key] = Image.open(buffer)
-
                         st.session_state[run_key] = False
-
                         st.session_state[hash_key] = new_hash
-
                         st.success(
                             f"Gambar berhasil dikompres ({size / 1024:.0f} KB)"
                         )
 
                 except Exception as e:
-
                     st.error(f"Gagal memproses gambar: {e}")
 
             if st.session_state[image_key] is None:
@@ -161,12 +141,15 @@ def halaman_uji(judul, get_model_func, key_prefix):
                     margin:5px 0;
                     background-color:#f8fafc;
                     overflow:hidden;
+                    display:flex;
+                    justify-content:center;
+                    align-items:center;
                 ">
                     <img src="data:image/png;base64,{image_to_base64(st.session_state[image_key])}"
                     style="
                         width:100%;
                         height:100%;
-                        object-fit:cover;
+                        object-fit:contain;
                         display:block;
                     ">
                 </div>
