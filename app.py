@@ -662,9 +662,9 @@ if menu == "🏠 Halaman Utama":
     with col3:
         st.markdown("""
         <div class="feature-card">
-            <div class="feature-title">Klasifikasi Real-time</div>
+            <div class="feature-title">Klasifikasi Otomatis</div>
             <div class="feature-text">
-            Prediksi langsung dari gambar daun tomat.
+            Prediksi penyakit daun tomat secara otomatis dari gambar yang diunggah.
             </div>
         </div>
         """, unsafe_allow_html=True)
