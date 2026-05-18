@@ -9,11 +9,11 @@ import hashlib
 def file_hash(file):
     return hashlib.md5(file.getvalue()).hexdigest()
 
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def get_model_10():
     return load_model_10()
 
-@st.cache_resource
+@st.cache_resource(show_spinner=False)
 def get_model_5():
     return load_model_5()
 
@@ -62,21 +62,25 @@ def halaman_uji(judul, get_model_func, key_prefix):
             preview = st.empty()
             st.markdown("<div style='margin-top:10px;'></div>", unsafe_allow_html=True)
 
+            def clear_image():
+                if st.session_state[uploader_key] is None:
+
+                    st.session_state[image_key] = None
+                    st.session_state[hash_key] = None
+                    st.session_state[run_key] = False
+
+
+            uploader_key = f"upload_{key_prefix}"
+
             uploaded_file = st.file_uploader(
                 "📂 Upload gambar",
-                key=f"upload_{key_prefix}",
                 label_visibility="collapsed",
-                type=["jpg", "jpeg", "png"]
+                type=["jpg", "jpeg", "png"],
+                key=uploader_key,
+                on_change=clear_image
             )
 
-
             MAX_SIZE = 10 * 1024 * 1024
-
-            if uploaded_file is None:
-
-                st.session_state[image_key] = None
-                st.session_state[run_key] = False
-                st.session_state[hash_key] = None
 
             if uploaded_file is not None:
                 try:
@@ -106,9 +110,9 @@ def halaman_uji(judul, get_model_func, key_prefix):
                     buffer.seek(0)
 
                     if new_hash != st.session_state[hash_key]:
-                        st.session_state[image_key] = Image.open(buffer)
-                        st.session_state[run_key] = False
+                        st.session_state[image_key] = Image.open(buffer).copy()
                         st.session_state[hash_key] = new_hash
+                        st.session_state[run_key] = False
                         st.success(
                             f"Gambar berhasil dikompres ({size / 1024:.0f} KB)"
                         )
