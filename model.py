@@ -21,17 +21,17 @@ def load_model_10():
     in_features = model.heads.head.in_features
 
     model.heads.head = nn.Sequential(
-        nn.Dropout(0.15821548650677658),
+        nn.Dropout(0.18902495801181993),
         nn.Linear(in_features, num_classes)
     )
 
-    checkpoint = torch.load("model_vit_10_classes.pth", map_location=device)
+    checkpoint = torch.load("model_vit_10_classes_aug_fix.pth", map_location=device)
 
-    model.load_state_dict(checkpoint['model_state_dict'])
+    model.load_state_dict(checkpoint['model_state_dict_aug_fix'])
     model.to(device)
     model.eval()
 
-    class_names = checkpoint['class_names']
+    class_names = checkpoint['class_names_aug_fix']
 
     return model, class_names, device
 
@@ -48,13 +48,13 @@ def load_model_5():
         nn.Linear(in_features, num_classes)
     )
 
-    checkpoint = torch.load("model_vit_5_classes.pth", map_location=device)
+    checkpoint = torch.load("model_vit_5_classes_aug_fix.pth", map_location=device)
 
-    model.load_state_dict(checkpoint['model_state_dict'])
+    model.load_state_dict(checkpoint['model_state_dict_aug_fix'])
     model.to(device)
     model.eval()
 
-    class_names = checkpoint['class_names']
+    class_names = checkpoint['class_names_aug_fix']
 
     return model, class_names, device
 
